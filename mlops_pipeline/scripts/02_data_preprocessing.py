@@ -9,8 +9,20 @@ def preprocess_data(batch_size=64):
     """
     Loads CIFAR-10 data, applies transforms, and logs dataset as PyTorch tensors.
     """
-    # ตั้ง tracking URI ให้เก็บในโฟลเดอร์ local
-    mlflow.set_tracking_uri("file:./mlruns")
+    # สร้าง path แบบ absolute (ปลอดภัยสำหรับ Windows)
+    BASE_DIR = os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    )
+    DATA_DIR = os.path.join(BASE_DIR, "data")
+    ARTIFACT_DIR = os.path.join(BASE_DIR, "artifacts")
+    MLRUNS_DIR = os.path.join(BASE_DIR, "mlruns")
+
+    os.makedirs(DATA_DIR, exist_ok=True)
+    os.makedirs(ARTIFACT_DIR, exist_ok=True)
+    os.makedirs(MLRUNS_DIR, exist_ok=True)
+
+    # ตั้ง tracking URI ให้เก็บในโฟลเดอร์ local อย่างถูกต้อง
+    mlflow.set_tracking_uri(f"file://{MLRUNS_DIR}")
     mlflow.set_experiment("CIFAR10 - Data Preprocessing")
 
     with mlflow.start_run() as run:
@@ -28,35 +40,37 @@ def preprocess_data(batch_size=64):
 
         # 2. Load CIFAR-10
         trainset = torchvision.datasets.CIFAR10(
-            root="./data", train=True, download=True, transform=transform
+            root=DATA_DIR, train=True, download=True, transform=transform
         )
         testset = torchvision.datasets.CIFAR10(
-            root="./data", train=False, download=True, transform=transform
+            root=DATA_DIR, train=False, download=True, transform=transform
         )
 
-        # จำกัด dataset เหมือนขั้นตอนก่อนหน้า (ถ้าต้องการ)
+        # จำกัด dataset (optional)
         trainset = torch.utils.data.Subset(trainset, range(10000))
 
         # 3. Convert to tensors and save as artifact
-        os.makedirs("artifacts", exist_ok=True)
-
         train_data = torch.stack([data[0] for data in trainset])
         train_labels = torch.tensor([data[1] for data in trainset])
         test_data = torch.stack([data[0] for data in testset])
         test_labels = torch.tensor([data[1] for data in testset])
 
-        torch.save((train_data, train_labels), "artifacts/train.pt")
-        torch.save((test_data, test_labels), "artifacts/test.pt")
+        train_path = os.path.join(ARTIFACT_DIR, "train.pt")
+        test_path = os.path.join(ARTIFACT_DIR, "test.pt")
+        classes_path = os.path.join(ARTIFACT_DIR, "classes.txt")
+
+        torch.save((train_data, train_labels), train_path)
+        torch.save((test_data, test_labels), test_path)
 
         # Log artifacts safely
-        mlflow.log_artifact("artifacts/train.pt", artifact_path="processed_data")
-        mlflow.log_artifact("artifacts/test.pt", artifact_path="processed_data")
+        mlflow.log_artifact(train_path, artifact_path="processed_data")
+        mlflow.log_artifact(test_path, artifact_path="processed_data")
 
         # 4. Save class names
-        with open("artifacts/classes.txt", "w") as f:
+        with open(classes_path, "w") as f:
             for c in testset.classes:
                 f.write(c + "\n")
-        mlflow.log_artifact("artifacts/classes.txt", artifact_path="processed_data")
+        mlflow.log_artifact(classes_path, artifact_path="processed_data")
 
         # 5. Log info
         mlflow.log_param("batch_size", batch_size)
