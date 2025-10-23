@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/sitthisak/gitkub/ProJectMLv2/mlruns/709407593996106178/5ec222ab9c2449faa0f533a69acaf0d4/artifacts
+end_time: 1761233952656
+entry_point_name: ''
+experiment_id: '709407593996106178'
+lifecycle_stage: active
+run_id: 5ec222ab9c2449faa0f533a69acaf0d4
+run_name: BetterCNN_test_only
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761233938792
+status: 3
+tags: []
+user_id: user

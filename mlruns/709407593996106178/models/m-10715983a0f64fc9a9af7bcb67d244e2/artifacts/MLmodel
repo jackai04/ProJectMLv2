@@ -1,0 +1,23 @@
+artifact_path: file:///C:/sitthisak/gitkub/ProJectMLv2/mlruns/709407593996106178/models/m-10715983a0f64fc9a9af7bcb67d244e2/artifacts
+flavors:
+  python_function:
+    config:
+      device: null
+    data: data
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.pytorch
+    pickle_module_name: mlflow.pytorch.pickle_module
+    python_version: 3.12.7
+  pytorch:
+    code: null
+    model_data: data
+    pytorch_version: 2.5.1+cu121
+mlflow_version: 3.4.0
+model_id: m-10715983a0f64fc9a9af7bcb67d244e2
+model_size_bytes: 13031172
+model_uuid: m-10715983a0f64fc9a9af7bcb67d244e2
+prompts: null
+run_id: 5a2b1de5de0949ab898be48c7b0c8890
+utc_time_created: '2025-10-23 15:35:37.139640'
