@@ -1,3 +1,6 @@
+# http://127.0.0.1:8000/docs#/
+# http://127.0.0.1:8000/
+
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import HTMLResponse
 import mlflow
