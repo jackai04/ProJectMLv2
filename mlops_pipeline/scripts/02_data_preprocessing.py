@@ -9,6 +9,8 @@ def preprocess_data(batch_size=64):
     """
     Loads CIFAR-10 data, applies transforms, and logs dataset as PyTorch tensors.
     """
+    # ตั้ง tracking URI ให้เก็บในโฟลเดอร์ local
+    mlflow.set_tracking_uri("file:./mlruns")
     mlflow.set_experiment("CIFAR10 - Data Preprocessing")
 
     with mlflow.start_run() as run:
@@ -32,6 +34,9 @@ def preprocess_data(batch_size=64):
             root="./data", train=False, download=True, transform=transform
         )
 
+        # จำกัด dataset เหมือนขั้นตอนก่อนหน้า (ถ้าต้องการ)
+        trainset = torch.utils.data.Subset(trainset, range(10000))
+
         # 3. Convert to tensors and save as artifact
         os.makedirs("artifacts", exist_ok=True)
 
@@ -43,17 +48,17 @@ def preprocess_data(batch_size=64):
         torch.save((train_data, train_labels), "artifacts/train.pt")
         torch.save((test_data, test_labels), "artifacts/test.pt")
 
-        # Log artifacts to MLflow
+        # Log artifacts safely
         mlflow.log_artifact("artifacts/train.pt", artifact_path="processed_data")
         mlflow.log_artifact("artifacts/test.pt", artifact_path="processed_data")
 
-        # 4. Save class names as artifact
+        # 4. Save class names
         with open("artifacts/classes.txt", "w") as f:
-            for c in trainset.classes:
+            for c in testset.classes:
                 f.write(c + "\n")
         mlflow.log_artifact("artifacts/classes.txt", artifact_path="processed_data")
 
-        # 5. Log dataset info
+        # 5. Log info
         mlflow.log_param("batch_size", batch_size)
         mlflow.log_metric("train_samples", len(trainset))
         mlflow.log_metric("test_samples", len(testset))
