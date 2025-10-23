@@ -2,3 +2,5 @@ mlflow
 scikit-learn
 pandas
 numpy<2.0
+pytorch
+torchvision
