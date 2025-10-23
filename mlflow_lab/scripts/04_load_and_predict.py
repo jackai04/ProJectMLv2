@@ -6,9 +6,9 @@ from PIL import Image
 
 
 def load_and_predict(
-    image_path=r"C:\Users\user\OneDrive\เอกสาร\GitHub\ProJectML\cat.png",
+    image_path=r"C:\sitthisak\gitkub\ProJectMLv2\cat.png",
 ):
-    MODEL_NAME = "BetterCNN-CIFAR10"  # ตรงกับตอน register
+    MODEL_NAME = "CNN-CIFAR10"  # ตรงกับตอน register
     MODEL_STAGE = "None"  # เปลี่ยนเป็น "Production" หรือ "Staging" ได้ถ้า promote แล้ว
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

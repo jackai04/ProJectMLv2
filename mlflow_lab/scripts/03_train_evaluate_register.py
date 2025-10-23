@@ -63,7 +63,7 @@ def test_only(
     checkpoint_path="CIFAR10_model.pth",
     batch_size=64,
     device="cuda",
-    acc_threshold=0.85,
+    acc_threshold =0.85,
 ):
     device = torch.device(device if torch.cuda.is_available() else "cpu")
     mlflow.set_experiment("CIFAR10 - Test Only")
@@ -121,12 +121,12 @@ def test_only(
         mlflow.log_metric("test_accuracy", accuracy)
 
         # 4. Log model in MLflow
-        mlflow.pytorch.log_model(model, artifact_path="bettercnn_model")
+        mlflow.pytorch.log_model(model, artifact_path="cnn_model")
 
         # 5. Register model if accuracy above threshold
         if accuracy >= acc_threshold:
-            model_uri = f"runs:/{mlflow.active_run().info.run_id}/bettercnn_model"
-            registered_model = mlflow.register_model(model_uri, "BetterCNN-CIFAR10")
+            model_uri = f"runs:/{mlflow.active_run().info.run_id}/cnn_model"
+            registered_model = mlflow.register_model(model_uri, "CNN-CIFAR10")
             print(
                 f"Model registered as '{registered_model.name}' version {registered_model.version}"
             )
@@ -143,8 +143,8 @@ def test_only(
 # ----------------------------
 if __name__ == "__main__":
     test_only(
-        checkpoint_path="C:/Users/user/OneDrive/เอกสาร/GitHub/ProJectML/mlflow_lab/scripts/CIFAR10_model.pth",
+        checkpoint_path="C:\sitthisak\gitkub\ProJectMLv2\mlflow_lab\scripts\CIFAR10_model.pth",
         batch_size=64,
         device="cuda",
-        acc_threshold=0.85,
+        acc_threshold =0.85,
     )
