@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/Ohm/mlflow_lab/mlruns/747345281958795014/b83e81a9f2df44c296a643808f6f98c4/artifacts
+end_time: 1757908561545
+entry_point_name: ''
+experiment_id: '747345281958795014'
+lifecycle_stage: active
+run_id: b83e81a9f2df44c296a643808f6f98c4
+run_name: capable-sloth-116
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1757908561417
+status: 3
+tags: []
+user_id: sophon

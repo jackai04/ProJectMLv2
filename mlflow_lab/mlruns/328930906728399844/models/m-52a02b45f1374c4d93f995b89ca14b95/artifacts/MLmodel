@@ -1,0 +1,22 @@
+artifact_path: file:///D:/Ohm/mlflow_lab/mlruns/328930906728399844/models/m-52a02b45f1374c4d93f995b89ca14b95/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.10.18
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.2
+mlflow_version: 3.3.2
+model_id: m-52a02b45f1374c4d93f995b89ca14b95
+model_size_bytes: 1466
+model_uuid: m-52a02b45f1374c4d93f995b89ca14b95
+prompts: null
+run_id: d459e7ad3fde43618779a2eb2041075f
+utc_time_created: '2025-09-15 04:03:55.444483'

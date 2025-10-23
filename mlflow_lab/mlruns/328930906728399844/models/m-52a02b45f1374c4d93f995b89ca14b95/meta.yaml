@@ -1,0 +1,10 @@
+artifact_location: file:///D:/Ohm/mlflow_lab/mlruns/328930906728399844/models/m-52a02b45f1374c4d93f995b89ca14b95/artifacts
+creation_timestamp: 1757909035404
+experiment_id: '328930906728399844'
+last_updated_timestamp: 1757909037709
+model_id: m-52a02b45f1374c4d93f995b89ca14b95
+model_type: null
+name: iris_classifier_pipeline
+source_run_id: d459e7ad3fde43618779a2eb2041075f
+status: 2
+status_message: null

@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/Ohm/mlflow_lab/mlruns/595783802661413264/4b5248628ccd4421bb69e43395365f78/artifacts
+end_time: 1757908395398
+entry_point_name: ''
+experiment_id: '595783802661413264'
+lifecycle_stage: active
+run_id: 4b5248628ccd4421bb69e43395365f78
+run_name: trusting-finch-357
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1757908395269
+status: 3
+tags: []
+user_id: sophon

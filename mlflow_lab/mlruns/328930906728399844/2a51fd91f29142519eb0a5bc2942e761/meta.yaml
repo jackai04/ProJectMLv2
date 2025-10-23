@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/Ohm/mlflow_lab/mlruns/328930906728399844/2a51fd91f29142519eb0a5bc2942e761/artifacts
+end_time: 1757908835043
+entry_point_name: ''
+experiment_id: '328930906728399844'
+lifecycle_stage: active
+run_id: 2a51fd91f29142519eb0a5bc2942e761
+run_name: logistic_regression_C_10.0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1757908832582
+status: 3
+tags: []
+user_id: sophon
