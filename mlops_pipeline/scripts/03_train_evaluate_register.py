@@ -132,12 +132,12 @@ def test_only(
         mlflow.log_metric("test_accuracy", accuracy)
 
         # 4. Log model in MLflow
-        mlflow.pytorch.log_model(model, artifact_path="bettercnn_model")
+        mlflow.pytorch.log_model(model, artifact_path="cnn_model")
 
         # 5. Register if meets threshold
         if accuracy >= acc_threshold:
-            model_uri = f"runs:/{mlflow.active_run().info.run_id}/bettercnn_model"
-            registered_model = mlflow.register_model(model_uri, "BetterCNN-CIFAR10")
+            model_uri = f"runs:/{mlflow.active_run().info.run_id}/cnn_model"
+            registered_model = mlflow.register_model(model_uri, "CNN-CIFAR10")
             print(
                 f"Model registered: '{registered_model.name}' version {registered_model.version}"
             )

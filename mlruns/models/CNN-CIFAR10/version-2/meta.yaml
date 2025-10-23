@@ -1,9 +1,9 @@
 aliases: []
 creation_timestamp: 1761214800754
-current_stage: Staging
+current_stage: Production
 deployment_job_state: null
 description: ''
-last_updated_timestamp: 1761214807910
+last_updated_timestamp: 1761221886107
 metrics: null
 model_id: ''
 name: CNN-CIFAR10
