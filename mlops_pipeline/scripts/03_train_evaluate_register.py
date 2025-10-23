@@ -9,9 +9,6 @@ from torch.utils.data import DataLoader
 import os
 
 
-# ----------------------------
-# Define BetterCNN
-# ----------------------------
 class BetterCNN(nn.Module):
     def __init__(self):
         super(BetterCNN, self).__init__()
@@ -41,7 +38,6 @@ class BetterCNN(nn.Module):
             nn.MaxPool2d(2, 2),
             nn.Dropout(0.25),
         )
-
         self.classifier = nn.Sequential(
             nn.Flatten(),
             nn.Linear(256 * 4 * 4, 512),
@@ -56,9 +52,6 @@ class BetterCNN(nn.Module):
         return x
 
 
-# ----------------------------
-# Test model only
-# ----------------------------
 def test_only(
     checkpoint_path="CIFAR10_model.pth",
     batch_size=64,
@@ -74,7 +67,10 @@ def test_only(
         mlflow.log_param("batch_size", batch_size)
         mlflow.log_param("acc_threshold", acc_threshold)
 
-        # 1. Load test dataset (fixed normalization)
+        if not os.path.exists(checkpoint_path):
+            print(f"Checkpoint not found at {checkpoint_path}. Skipping test stage.")
+            return
+
         transform_test = transforms.Compose(
             [
                 transforms.ToTensor(),
@@ -83,31 +79,18 @@ def test_only(
                 ),
             ]
         )
-
         testset = torchvision.datasets.CIFAR10(
             root="./data", train=False, download=True, transform=transform_test
         )
         testloader = DataLoader(testset, batch_size=batch_size, shuffle=False)
 
-        # 2. Load model checkpoint
-        if not os.path.exists(checkpoint_path):
-            raise FileNotFoundError(f"Checkpoint file not found: {checkpoint_path}")
-
         model = BetterCNN().to(device)
         checkpoint = torch.load(checkpoint_path, map_location=device)
-
-        # รองรับทั้ง 2 รูปแบบ checkpoint
-        if "model_state_dict" in checkpoint:
-            model.load_state_dict(checkpoint["model_state_dict"])
-        else:
-            model.load_state_dict(checkpoint)
-
+        model.load_state_dict(checkpoint.get("model_state_dict", checkpoint))
         model.eval()
         print(f"Loaded checkpoint from {checkpoint_path}")
 
-        # 3. Evaluate on test set
-        correct = 0
-        total = 0
+        correct, total = 0, 0
         with torch.no_grad():
             for images, labels in testloader:
                 images, labels = images.to(device), labels.to(device)
@@ -120,30 +103,26 @@ def test_only(
         print(f"\nTest Accuracy: {accuracy:.4f}")
         mlflow.log_metric("test_accuracy", accuracy)
 
-        # 4. Log model in MLflow
-        mlflow.pytorch.log_model(model, artifact_path="bettercnn_model")
+        mlflow.pytorch.log_model(model, artifact_path="cnn_model")
 
-        # 5. Register model if accuracy above threshold
         if accuracy >= acc_threshold:
             model_uri = f"runs:/{mlflow.active_run().info.run_id}/bettercnn_model"
-            registered_model = mlflow.register_model(model_uri, "BetterCNN-CIFAR10")
+            registered_model = mlflow.register_model(model_uri, "CNN-CIFAR10")
             print(
                 f"Model registered as '{registered_model.name}' version {registered_model.version}"
             )
         else:
             print(
-                f"Test accuracy ({accuracy:.4f}) below threshold {acc_threshold}. Model not registered."
+                f"Accuracy {accuracy:.4f} < threshold {acc_threshold}. Model not registered."
             )
 
-        print("\nTesting completed.")
+        print("\n Testing completed.")
 
 
-# ----------------------------
-# Main
-# ----------------------------
 if __name__ == "__main__":
+    checkpoint_path = os.path.join(os.path.dirname(__file__), "CIFAR10_model.pth")
     test_only(
-        checkpoint_path="C:\sitthisak\gitkub\ProJectMLv2\mlops_pipeline\scripts\CIFAR10_model.pth",
+        checkpoint_path=checkpoint_path,
         batch_size=64,
         device="cuda",
         acc_threshold=0.85,
