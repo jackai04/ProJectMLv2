@@ -87,9 +87,9 @@ jobs:
       run: python mlops_pipeline/scripts/03_train_evaluate_register.py ${{ steps.preprocessing.outputs.run_id }} 10.0
 
 
-    - name: Transition Model to Staging
+    - name: Transition Model to Production
       if: success()
-      run: python mlops_pipeline/scripts/04_transition_model.py "CNN-CIFAR10" "Staging"
+      run: python mlops_pipeline/scripts/04_transition_model.py "CNN-CIFAR10" "Production"
 
 
     - name: Upload MLflow artifacts for inspection
