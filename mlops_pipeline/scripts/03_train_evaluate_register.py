@@ -143,7 +143,7 @@ def test_only(
 # ----------------------------
 if __name__ == "__main__":
     test_only(
-        checkpoint_path="C:/Users/user/OneDrive/เอกสาร/GitHub/ProJectML/mlflow_lab/scripts/CIFAR10_model.pth",
+        checkpoint_path="C:\sitthisak\gitkub\ProJectMLv2\mlops_pipeline\scripts\CIFAR10_model.pth",
         batch_size=64,
         device="cuda",
         acc_threshold=0.85,
