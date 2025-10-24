@@ -40,7 +40,7 @@ def preprocess_data(batch_size=64):
         print(f"Starting preprocessing with run_id: {run_id}")
         mlflow.set_tag("ml.step", "data_preprocessing")
 
-        # 1️⃣ Data Transform
+        # Data Transform
         transform = transforms.Compose(
             [
                 transforms.ToTensor(),
@@ -48,7 +48,7 @@ def preprocess_data(batch_size=64):
             ]
         )
 
-        # 2️⃣ Load CIFAR-10 dataset
+        # Load CIFAR-10 dataset
         trainset = torchvision.datasets.CIFAR10(
             root=DATA_DIR, train=True, download=True, transform=transform
         )
@@ -59,7 +59,7 @@ def preprocess_data(batch_size=64):
         # จำกัดขนาด dataset เพื่อลดเวลา train บน CI/CD
         trainset = torch.utils.data.Subset(trainset, range(10000))
 
-        # 3️⃣ Save data tensors
+        # Save data tensors
         train_path = os.path.join(ARTIFACT_DIR, "train.pt")
         test_path = os.path.join(ARTIFACT_DIR, "test.pt")
         classes_path = os.path.join(ARTIFACT_DIR, "classes.txt")
@@ -72,22 +72,22 @@ def preprocess_data(batch_size=64):
         torch.save((train_data, train_labels), train_path)
         torch.save((test_data, test_labels), test_path)
 
-        # 4️⃣ Log artifacts ลงใน MLflow
+        # Log artifacts ลงใน MLflow
         mlflow.log_artifact(train_path, artifact_path="processed_data")
         mlflow.log_artifact(test_path, artifact_path="processed_data")
 
-        # 5️⃣ Save และ log class names
+        # Save และ log class names
         with open(classes_path, "w") as f:
             for c in testset.classes:
                 f.write(c + "\n")
         mlflow.log_artifact(classes_path, artifact_path="processed_data")
 
-        # 6️⃣ Log parameters & metrics
+        # Log parameters & metrics
         mlflow.log_param("batch_size", batch_size)
         mlflow.log_metric("train_samples", len(trainset))
         mlflow.log_metric("test_samples", len(testset))
 
-        print("✅ Preprocessing finished successfully.")
+        print("Preprocessing finished successfully.")
         print(f"Run ID for next step: {run_id}")
 
 
