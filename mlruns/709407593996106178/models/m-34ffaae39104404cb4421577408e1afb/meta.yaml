@@ -1,0 +1,10 @@
+artifact_location: file:///C:/sitthisak/gitkub/ProJectMLv2/mlruns/709407593996106178/models/m-34ffaae39104404cb4421577408e1afb/artifacts
+creation_timestamp: 1761282020283
+experiment_id: '709407593996106178'
+last_updated_timestamp: 1761282033296
+model_id: m-34ffaae39104404cb4421577408e1afb
+model_type: null
+name: cnn_model
+source_run_id: 1f8b3531b82f48549add0130c847d4bd
+status: 2
+status_message: null
