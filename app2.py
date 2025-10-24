@@ -9,6 +9,8 @@ from PIL import Image
 import io
 import base64
 import uvicorn
+from fastapi.responses import JSONResponse
+
 
 app = FastAPI(
     title="CNN-CIFAR10 API",
